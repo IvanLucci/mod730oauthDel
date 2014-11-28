@@ -1,0 +1,18 @@
+<div id="welcome">    
+    <h4><?= $this->escape($this->message) ?></h4>
+</div>
+
+<div class="mag">
+<?php $this->mag?>
+</div>
+
+
+<?php if($this->form):?>
+<div class="form">
+    <?=$this->form?>
+    </div>
+<?php endif; ?>
+
+<?php if($this->toRoleForm):?>
+<a href="<?=$this->toRoleForm?>">Login with role</a>
+<?php endif;?>

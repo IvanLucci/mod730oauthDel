@@ -1,0 +1,17 @@
+<div id="welcome">
+<h4><?= $this->escape($this->message) ?></h4>
+</div>
+
+<?php if($this->loggedRole):?>
+<p>You can't manage delegations logged in as a Role.</p>
+<?php else:?>
+
+	<h3>Edit Delegation</h3>
+	
+	<?php if($this->form):?>
+	<div class="form">
+	    <?=$this->form?>
+	</div>
+	<?php endif; ?>
+	
+<?php endif;?>

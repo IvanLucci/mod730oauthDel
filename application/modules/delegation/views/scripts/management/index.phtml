@@ -1,0 +1,67 @@
+<div id="welcome">
+<h4><?= $this->escape($this->message) ?></h4>
+</div>
+
+<?php if($this->loggedRole):?>
+<p>You can't manage delegations logged in as a Role.</p>
+<?php else:?>
+
+	<h3>Delegation Management Page</h3>
+	
+	
+	<?php if($this->form):?>
+	<div class="form">
+	    <?=$this->form?>
+	</div>
+	<?php endif; ?>
+	
+	
+	
+	<?php if($this->delegationList):?>
+		<h3>Delegation List</h3>
+		<table cellpadding="10">
+		<tr>
+			<th>Delegator</th>
+			<th>Delegate</th>
+			<th>Scopes</th>
+			<th>Expiration date</th>
+			<th>Operations</th>
+		</tr>
+		<?php foreach($this->delegationList as $d): ?>
+			<tr>
+				<td><?=$d->getDelegator()?></td>
+				<td><?=$d->getDelegate()?></td>
+				<td><?=$d->getScopes()?></td>
+				<td><?=$d->getExpDate()?></td>
+				<td>
+					<a href="<?=$this->editUrl?>?delegator=<?=$d->getDelegator()?>&delegate=<?=$d->getDelegate()?>">edit</a>
+					<a href="<?=$this->deleteUrl?>?delegator=<?=$d->getDelegator()?>&delegate=<?=$d->getDelegate()?>">remove</a>
+				</td>
+			</tr>
+		<?php endforeach;?>
+		</table>
+	<?php else:?> <p>There is no delegation</p>
+	<?php endif;?>
+	
+	<?php if($this->pendingDelegations):?>
+		<h3>Pending Delegations</h3>
+		<table cellpadding="10">
+		<tr>
+			<th>Delegator</th>
+			<th>Delegate</th>
+			<th>Scopes</th>
+			<th>Expiration date</th>
+		</tr>
+		<?php foreach($this->pendingDelegations as $d): ?>
+			<tr>
+				<td><?=$d->getDelegator()?></td>
+				<td><?=$d->getDelegate()?></td>
+				<td><?=$d->getScopes()?></td>
+				<td><?=$d->getExpDate()?></td>
+			</tr>
+		<?php endforeach;?>
+		</table>
+	<?php else:?> <p>There is no pending delegation</p>
+	<?php endif;?>
+	
+<?php endif;?>
