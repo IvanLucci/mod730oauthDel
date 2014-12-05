@@ -40,8 +40,35 @@
 			</tr>
 		<?php endforeach;?>
 		</table>
-	<?php else:?> <p>There is no delegation</p>
+	<?php else:?> <p>There is no delegation made by you</p>
 	<?php endif;?>
+	
+	
+	<?php if($this->receivedDelegations):?>
+		<h3>Received Delegations</h3>
+		<table cellpadding="10">
+		<tr>
+			<th>Delegator</th>
+			<th>Delegate</th>
+			<th>Scopes</th>
+			<th>Expiration date</th>
+			<th>Operations</th>
+		</tr>
+		<?php foreach($this->receivedDelegations as $d): ?>
+			<tr>
+				<td><?=$d->getDelegator()?></td>
+				<td><?=$d->getDelegate()?></td>
+				<td><?=$d->getScopes()?></td>
+				<td><?=$d->getExpDate()?></td>
+				<td>
+					<a href="<?=$this->deleteUrl?>?delegator=<?=$d->getDelegator()?>&delegate=<?=$d->getDelegate()?>">remove</a>
+				</td>
+			</tr>
+		<?php endforeach;?>
+		</table>
+	<?php else:?> <p>There is no received delegation</p>
+	<?php endif;?>
+	
 	
 	<?php if($this->pendingDelegations):?>
 		<h3>Pending Delegations</h3>

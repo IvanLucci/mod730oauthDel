@@ -31,6 +31,7 @@ class Delegation_ManagementController extends Zend_Controller_Action{
 		$this->view->form = $this->getForm();
 		$this->view->delegationList = $this->getDelegationList();
 		$this->view->pendingDelegations = $this->getPendingDelegations();
+		$this->view->receivedDelegations = $this->getReceivedDelegations();
 		$this->view->deleteUrl = 'management/delete';
 		$this->view->editUrl = 'management/edit';
 		$s = new Zend_Session_Namespace('delegation');
@@ -75,8 +76,7 @@ class Delegation_ManagementController extends Zend_Controller_Action{
     	//delegation by clicking on the verification link in the email received.
     	$url = $this->view->serverUrl('/oauth/public/delegation/management/verifydelegation');
     	$this->delMapper->delegationCreationMail($this->loggedUser, $selectedDelegate, $selectedScopes, $delegation, $url);
-    	
-    	
+    
     	return $this->_helper->redirector('index');
 	}
 	
@@ -146,6 +146,11 @@ class Delegation_ManagementController extends Zend_Controller_Action{
 			$this->delMapper->removeDelegation($delegator, $delegate);
 			$this->delMapper->delegationDeletionMail($delegator, $delegate);
 		}
+		else if($delegate == $this->loggedUser){
+			$this->delMapper->removeDelegation($delegator, $delegate);
+			$this->delMapper->delegationDeletionMail($delegate, $delegator);
+		}
+		
 		$this->_helper->redirector('index');
 	}
 	
@@ -204,6 +209,11 @@ class Delegation_ManagementController extends Zend_Controller_Action{
 	protected function getPendingDelegations(){
 		$pending = $this->delMapper->findPendingDelegations($this->loggedUser);
 		return $pending;
+	}
+	
+	protected function getReceivedDelegations(){
+		$received = $this->delMapper->findDelegationsOfDelegate($this->loggedUser);
+		return $received;
 	}
 	
 	/**

@@ -82,6 +82,28 @@ class Delegation_Mapper_Delegation {
 	}
 	
 	/**
+	 * Finds the delegations of a delegate
+	 * @param string $id
+	 * @return array of Delegation_Model_Delegation
+	 */
+	public function findDelegationsOfDelegate($id){
+		$table = $this->delegation_table;
+		$select = $table->select();
+		$select->where('delegate = ?', $id);
+		$rows = $table->fetchAll($select);
+		$result = array();
+		foreach($rows as $row){
+			$d = new Delegation_Model_Delegation();
+			$d->setDelegator($row->delegator)
+			->setDelegate($row->delegate)
+			->setScopes($row->scopes)
+			->setExpDate($row->expiration_date);
+			$result[] = $d;
+		}
+		return $result;
+	}
+	
+	/**
 	 * Finds the pending delegations of a delegator
 	 * @param string $id
 	 * @return array of Delegation_Model_Delegation
@@ -334,7 +356,6 @@ class Delegation_Mapper_Delegation {
 		$seed = mt_rand();
 		mt_srand($seed);
 		$code = mt_rand();
-		$this->saveVerificationCode($delegation, $code);
 		
 		$link = $url . '?seed=' . $seed;
 		
@@ -349,6 +370,8 @@ class Delegation_Mapper_Delegation {
 		$mail->addTo('oauth2del+'.$label.'@gmail.com', $label);
 		$mail->setSubject('[AS] New Delegation from '. $senderMail);
 		$mail->send();
+		
+		$this->saveVerificationCode($delegation, $code);
 	}
 	
 	/**
