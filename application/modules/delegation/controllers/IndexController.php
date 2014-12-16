@@ -205,7 +205,7 @@ class Delegation_IndexController extends Zend_Controller_Action {
     	
     	$status = $xpath->query("//Status/StatusCode/@Value")->item(0)->nodeValue;
     	$role = (int)$xpath->query("//Attribute[@Name = 'role_id']/AttributeValue")->item(0)->nodeValue;
-    	$id = $xpath->query("//Attribute[@Name = 'subject_id']/AttributeValue")->item(0)->nodeValue;   	
+    	$id = trim($xpath->query("//Attribute[@Name = 'subject_id']/AttributeValue")->item(0)->nodeValue);   	
     	
     	
     	$this->session_delegation->role = $role;
