@@ -12,3 +12,10 @@
 2014-12-13T13:16:48+01:00 INFO (6): Ispettore role_bianchi@gmail.com accessed to mario.rossi@gmail.com data. Scopes: lettura_dati_contratti_locazione_fabbricati lettura_dati_cud
 2014-12-15T16:28:59+01:00 INFO (6): Ispettore role_bianchi@gmail.com accessed to mario.rossi@gmail.com data. Scopes: lettura_dati_contratti_locazione_fabbricati lettura_dati_cud
 2014-12-16T17:49:25+01:00 INFO (6): Ispettore ispettore1@gmail.com accessed to mario.rossi@gmail.com data. Scopes: lettura_dati_contratti_locazione_fabbricati lettura_dati_cud
+2014-12-20T11:26:15+01:00 INFO (6): Ispettore ispettore1@gmail.com accessed to mario.rossi@gmail.com data. Scopes: lettura_dati_contratti_locazione_fabbricati lettura_dati_cud
+2014-12-20T11:37:24+01:00 INFO (6): bianchi@gmail.com accessed to mario.rossi@gmail.com data. Scopes: lettura_dati_anagrafici
+2014-12-20T12:00:43+01:00 INFO (6): Ispettore ispettore1@gmail.com accessed to mario.rossi@gmail.com data. Scopes: lettura_dati_contratti_locazione_fabbricati lettura_dati_cud
+2015-01-06T12:02:16+01:00 INFO (6): bianchi@gmail.com accessed to mario.rossi@gmail.com data. Scopes: lettura_dati_anagrafici
+2015-01-13T13:06:19+01:00 INFO (6): Ispettore ispettore1@gmail.com accessed to mario.rossi@gmail.com data. Scopes: lettura_dati_contratti_locazione_fabbricati lettura_dati_cud
+2015-01-15T14:51:48+01:00 INFO (6): Ispettore ispettore1@gmail.com accessed to mario.rossi@gmail.com data. Scopes: lettura_dati_contratti_locazione_fabbricati lettura_dati_cud
+2015-01-15T15:42:07+01:00 INFO (6): Ispettore ispettore1@gmail.com accessed to mario.rossi@gmail.com data. Scopes: lettura_dati_contratti_locazione_fabbricati lettura_dati_cud

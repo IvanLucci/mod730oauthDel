@@ -186,15 +186,19 @@ class Delegation_IndexController extends Zend_Controller_Action {
     
     public function verifyroleAction(){
     	
+    	require_once realpath(APPLICATION_PATH . '/../library/Saml/settings.php');
+    	require_once realpath(APPLICATION_PATH . '/../library/Saml/lib/onelogin/saml/settings.php');
+    	require_once realpath(APPLICATION_PATH . '/../library/Saml/lib/onelogin/saml/response.php');
+    	
     	$post = $this->_request->getPost();
     	
-    	//$id = $post['id'];
-    	//$role = $post['role'];
-    	$assertion = base64_decode($post['assertion']);
+    	//verificare saml assertion
+    	$samlresponse = new SamlResponse(saml_get_settings(), $post['assertion']);
+    	if(!$samlresponse->is_valid()){
+    		throw new Exception("SAML Response is not valid");
+    	}
     	
-    	//Zend_Debug::dump($assertion); die();
-    	//da leggere l'asserzione e i suoi parametri.
-    	//controllare i parametri dell'asserzione e vedere se il ruolo e' stato verificato
+    	$assertion = base64_decode($post['assertion']);    	
     	
     	$saml = new DOMDocument();
     	$saml->loadXML($assertion);
@@ -202,6 +206,7 @@ class Delegation_IndexController extends Zend_Controller_Action {
     	$xpath->registerNamespace("samlp","urn:oasis:names:tc:SAML:2.0:protocol");
     	$xpath->registerNamespace("saml","urn:oasis:names:tc:SAML:2.0:assertion");
     	$xpath->registerNamespace("ds", "http://www.w3.org/2000/09/xmldsig#");
+    	
     	
     	$status = $xpath->query("//Status/StatusCode/@Value")->item(0)->nodeValue;
     	$role = (int)$xpath->query("//Attribute[@Name = 'role_id']/AttributeValue")->item(0)->nodeValue;
