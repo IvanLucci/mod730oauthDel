@@ -115,7 +115,7 @@ class Delegation_ManagementController extends Zend_Controller_Action{
 			// TODO il render() non sortisce effetti, il form non appare.
 		}
 		 
-		$selectedDelegate = $post['selectDelegate'];
+		$selectedDelegate = $delegate;
 		$selectedScopes = $post['selectScopes'];
 		 
 		$delegation = new Delegation_Model_Delegation();

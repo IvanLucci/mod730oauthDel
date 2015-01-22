@@ -20,14 +20,6 @@ class Delegation_Form_ManagementEditForm extends Zend_Form {
 		$usersArray = $temp + $usersArray;
 		
 		
-		$select = $this->addElement('select', 'selectDelegate', array(
-				'required' => false,
-				'ignore' =>true,
-				'label' => 'Delegate',
-				'description' => 'Chose the user you want to delegate',
-				'multiOptions' => $usersArray
-		));
-		
 		$multiCheckbox = $this->addElement('multiCheckbox', 'selectScopes', array(
 				'required' => false,
 				'ignore' =>true,
