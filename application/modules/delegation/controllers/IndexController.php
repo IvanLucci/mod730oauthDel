@@ -69,7 +69,7 @@ class Delegation_IndexController extends Zend_Controller_Action {
     
     
     public function indexAction() {
-        
+    	
         //Se l'utente e' loggato con un ruolo, mostra il form dei ruoli
 		if(isset($this->session_delegation->role)) {
 			$this->view->form = $this->getForm4Roles();
@@ -180,7 +180,8 @@ class Delegation_IndexController extends Zend_Controller_Action {
     	
     	//Ask the role server if the role is legit
     	$role = $this->delMapper->findRole($selectedRole);
-    	$this->_helper->redirector->gotoUrl($role->getRoleUri() . '?role=' .$selectedRole);
+    	$url = $this->view->serverUrl($this->view->baseUrl()).'/delegation/index/verifyrole';
+    	$this->_helper->redirector->gotoUrl($role->getRoleUri() . '?role=' .$selectedRole.'&url='.$url);
     	
     }
     
@@ -198,7 +199,8 @@ class Delegation_IndexController extends Zend_Controller_Action {
     		throw new Exception("SAML Response is not valid");
     	}
     	
-    	$assertion = base64_decode($post['assertion']);    	
+    	$assertion = base64_decode($post['assertion']);  
+    	
     	
     	$saml = new DOMDocument();
     	$saml->loadXML($assertion);
