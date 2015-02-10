@@ -265,7 +265,8 @@ class Delegation_IndexController extends Zend_Controller_Action {
     	$role = $this->delMapper->findRole($roleId);
     	
     	//Se almeno uno scope del ruolo e' incluso negli scope dell'url
-    	//allora il ruolo e' attivo e si puo' usare per tutti gli utenti
+    	//allora il ruolo e' attivo e si puo' usare per accedere ai dati
+    	//di tutti gli utenti
     	if($this->delMapper->canRoleSeeUsers($role, $this->scopeArray)){
     		$users = $this->delMapper->findAllUsers();
     		$form->buildForm($users);

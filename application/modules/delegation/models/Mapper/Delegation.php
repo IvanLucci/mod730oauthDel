@@ -44,13 +44,11 @@ class Delegation_Mapper_Delegation {
 	public function __construct() {
 		
 		$this->delegation_table = new Delegation_Model_DbTable_Delegation();
-		$this->userRole_table = new Delegation_Model_DbTable_UserRole();
 		$this->role_table = new Delegation_Model_DbTable_Role();
 		$this->roleScope_table = new Delegation_Model_DbTable_RoleScope(); 
 		$this->delegationVerificationCode_table = new Delegation_Model_DbTable_DelegationVerificationCode();
 		
 		if (!$this->delegation_table instanceof Zend_Db_Table_Abstract or 
-			!$this->userRole_table instanceof Zend_Db_Table_Abstract or 
 			!$this->role_table instanceof Zend_Db_Table_Abstract or
 			!$this->roleScope_table instanceof Zend_Db_Table_Abstract or 
 			!$this->delegationVerificationCode_table instanceof Zend_Db_Table_Abstract	) {
@@ -365,9 +363,11 @@ class Delegation_Mapper_Delegation {
 				the delegation click on the following link:<br/>
 				<a href='".$link."'>Confirm delegation</a>");
 		$mail->setFrom('oauth2del@gmail.com');
-		//label for gmail
+		//label for gmail. For tests and demo
 		$label = '_' . explode('@', $receiverMail)[0];
 		$mail->addTo('oauth2del+'.$label.'@gmail.com', $label);
+		//For a real usage: sends to the real email address
+		//$mail->addTo($receiverMail);
 		$mail->setSubject('[AS] New Delegation from '. $senderMail);
 		$mail->send();
 		
@@ -384,9 +384,11 @@ class Delegation_Mapper_Delegation {
 		$mail = new Zend_Mail();
 		$mail->setBodyHtml("The user <b>".$senderMail."</b> has deleted his delegation");
 		$mail->setFrom('oauth2del@gmail.com');
-		//label for gmail
+		//label for gmail. For tests and demo
 		$label = '_' . explode('@', $receiverMail)[0];
 		$mail->addTo('oauth2del+'.$label.'@gmail.com', $label);
+		//For a real usage: sends to the real email address
+		//$mail->addTo($receiverMail);
 		$mail->setSubject('[AS] Delegation deleted by '. $senderMail);
 		$mail->send();
 	}
@@ -404,9 +406,11 @@ class Delegation_Mapper_Delegation {
 					       Now the scopes you can access to are: <br/><br/>". 
 						   implode('<br/>', $scopes));
 		$mail->setFrom('oauth2del@gmail.com');
-		//label for gmail
+		//label for gmail. For tests and demo
 		$label = '_' . explode('@', $receiverMail)[0];
 		$mail->addTo('oauth2del+'.$label.'@gmail.com', $label);
+		//For a real usage: sends to the real email address
+		//$mail->addTo($receiverMail);
 		$mail->setSubject('[AS] Delegation edited by '. $senderMail);
 		$mail->send();
 	}
@@ -422,9 +426,11 @@ class Delegation_Mapper_Delegation {
 		$mail->setBodyHtml("The user <b>".$senderMail."</b> has used your delegation and has
 				accessed to some of your scopes.");
 		$mail->setFrom('oauth2del@gmail.com');
-		//label for gmail
+		//label for gmail. For tests and demo
 		$label = '_' . explode('@', $receiverMail)[0];
 		$mail->addTo('oauth2del+'.$label.'@gmail.com', $label);
+		//For a real usage: sends to the real email address
+		//$mail->addTo($receiverMail);
 		$mail->setSubject('[AS] Delegation used by '. $senderMail);
 		$mail->send();
 	}
