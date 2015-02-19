@@ -20,7 +20,7 @@ class Delegation_Form_ManagementForm extends Zend_Form {
 				'required' => false,
 				'ignore' =>true,
 				'label' => 'Delegate',
-				'description' => 'Chose the user you want to delegate',
+				'description' => 'Select the user you want to delegate',
 				'multiOptions' => $usersArray
 		));
 		

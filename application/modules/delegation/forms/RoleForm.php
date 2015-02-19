@@ -22,7 +22,7 @@ class Delegation_Form_RoleForm extends Zend_Form {
 				'required' => false,
 				'ignore' =>true,
 				'label' => 'Roles',
-				'description' => 'Chose your role',
+				'description' => 'Select your role and then click Proceed',
 				'multiOptions' => $rolesArray
 		));
 	

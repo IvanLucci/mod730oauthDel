@@ -358,8 +358,8 @@ class Delegation_Mapper_Delegation {
 		$link = $url . '?seed=' . $seed;
 		
 		$mail = new Zend_Mail();
-		$mail->setBodyHtml("The user <b>".$senderMail."</b> has delegated you for
-				the scopes: <br/><br/><b>".implode('<br/>', $scopes)."</b>.<br/><br/> To confirm
+		$mail->setBodyHtml("User <b>".$senderMail."</b> has delegated you for
+				the following scopes: <br/><br/><b>".implode('<br/>', $scopes)."</b>.<br/><br/> To confirm
 				the delegation click on the following link:<br/>
 				<a href='".$link."'>Confirm delegation</a>");
 		$mail->setFrom('oauth2del@gmail.com');
@@ -382,7 +382,7 @@ class Delegation_Mapper_Delegation {
 	 */
 	public function delegationDeletionMail($senderMail, $receiverMail){
 		$mail = new Zend_Mail();
-		$mail->setBodyHtml("The user <b>".$senderMail."</b> has deleted his delegation");
+		$mail->setBodyHtml("User <b>".$senderMail."</b> has deleted his delegation");
 		$mail->setFrom('oauth2del@gmail.com');
 		//label for gmail. For tests and demo
 		$label = '_' . explode('@', $receiverMail)[0];
@@ -402,7 +402,7 @@ class Delegation_Mapper_Delegation {
 	 */
 	public function delegationEditMail($senderMail, $receiverMail, $scopes){
 		$mail = new Zend_Mail();
-		$mail->setBodyHtml("The user <b>".$senderMail."</b> has edited his delegation.
+		$mail->setBodyHtml("User <b>".$senderMail."</b> has edited his delegation.
 					       Now the scopes you can access to are: <br/><br/>". 
 						   implode('<br/>', $scopes));
 		$mail->setFrom('oauth2del@gmail.com');
@@ -423,8 +423,7 @@ class Delegation_Mapper_Delegation {
 	 */
 	public function delegationUsedMail($senderMail, $receiverMail){
 		$mail = new Zend_Mail();
-		$mail->setBodyHtml("The user <b>".$senderMail."</b> has used your delegation and has
-				accessed to some of your scopes.");
+		$mail->setBodyHtml("User <b>".$senderMail."</b> has	accessed to some of your scopes.");
 		$mail->setFrom('oauth2del@gmail.com');
 		//label for gmail. For tests and demo
 		$label = '_' . explode('@', $receiverMail)[0];

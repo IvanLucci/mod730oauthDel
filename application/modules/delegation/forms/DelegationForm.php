@@ -24,7 +24,7 @@ class Delegation_Form_DelegationForm extends Zend_Form {
 				'required' => false,
 				'ignore' =>true,
 				'label' => 'Available users',
-				'description' => 'Chose the user whose data you want to access',
+				'description' => 'Select the user whose data you want to access and click Proceed',
 				'multiOptions' => $usersArray
 		));
      	

@@ -28,3 +28,4 @@
 2015-02-10T15:09:16+01:00 INFO (6): bianchi@gmail.com accessed to mario.rossi@gmail.com data. Scopes: lettura_dati_anagrafici
 2015-02-10T15:10:30+01:00 INFO (6): Ispettore ispettore1@gmail.com accessed to mario.rossi@gmail.com data. Scopes: lettura_dati_contratti_locazione_fabbricati lettura_dati_cud
 2015-02-10T15:11:17+01:00 INFO (6): Ispettore ispettore1@gmail.com accessed to mario.rossi@gmail.com data. Scopes: lettura_dati_contratti_locazione_fabbricati lettura_dati_cud
+2015-02-19T16:58:51+01:00 INFO (6): bianchi@gmail.com accessed to mario.rossi@gmail.com data. Scopes: lettura_dati_anagrafici
