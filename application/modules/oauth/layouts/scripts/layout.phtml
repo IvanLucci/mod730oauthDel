@@ -5,7 +5,10 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>Oauthwo Authorization Server</title>
   <?php echo $this->headStyle(); ?>
-  <?php //echo $this->headLink()->appendStylesheet('/css/global.css') ?>
+  <?php $this->headLink()->appendStylesheet('https://code.jquery.com/ui/1.8.2/themes/smoothness/jquery-ui.css') ?>
+  <?php echo $this->headLink(); ?>
+  <?php echo $this->JQuery()->setVersion('1.4.2')->setUiVersion('1.8.2'); ?>
+  
 </head>
 <body>
 <div id="header" style="background-color: #EEEEEE; height: 30px;">

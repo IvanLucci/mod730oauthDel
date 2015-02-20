@@ -58,6 +58,9 @@ class Delegation_IndexController extends Zend_Controller_Action {
 	
     public function init() {
     	
+    	$this->view->addHelperPath('ZendX/JQuery/View/Helper/', 'ZendX_JQuery_View_Helper');
+    	$this->view->jQuery()->setCdnSsl(true);
+    	
     	$this->delMapper = new Delegation_Mapper_Delegation();
     	
     	$this->session_lastRequest = new Zend_Session_Namespace('lastRequest');
@@ -254,7 +257,7 @@ class Delegation_IndexController extends Zend_Controller_Action {
     			'controller' => 'index',
     			'action'     => 'roleprocess'), 'default');
     	
-    	$form = new Delegation_Form_DelegationForm(array(
+    	$form = new Delegation_Form_DelegationForm4Roles(array(
     			'action' => $action,
     			'method' => 'post',
     	));

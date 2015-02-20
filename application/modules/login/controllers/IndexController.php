@@ -5,6 +5,10 @@ class Login_IndexController extends Zend_Controller_Action {
     protected $redirect_after_login = NULL;
 
     public function init() {
+    	
+    	$this->view->addHelperPath('ZendX/JQuery/View/Helper/', 'ZendX_JQuery_View_Helper');
+    	$this->view->jQuery()->setCdnSsl(true);
+    	
         //$this->form_action = '/login/process'; BAD
         $this->form_action = $this->view->url(array('module' => 'login',
 							'controller' => 'index',

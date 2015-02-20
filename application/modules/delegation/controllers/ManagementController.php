@@ -23,11 +23,15 @@ class Delegation_ManagementController extends Zend_Controller_Action{
 	
 	public function init(){
 		
+		$this->view->addHelperPath('ZendX/JQuery/View/Helper/', 'ZendX_JQuery_View_Helper');
+		$this->view->jQuery()->setCdnSsl(true);
+		
 		$this->delMapper = new Delegation_Mapper_Delegation();
 		$this->loggedUser = Zend_Auth::getInstance()->getIdentity();
 	}
 	
 	public function indexAction(){
+		
 		$this->view->form = $this->getForm();
 		$this->view->delegationList = $this->getDelegationList();
 		$this->view->pendingDelegations = $this->getPendingDelegations();

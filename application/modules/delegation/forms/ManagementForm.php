@@ -13,24 +13,14 @@ class Delegation_Form_ManagementForm extends Zend_Form {
 	}
 	
 	public function buildForm($users, $scopes){
-		$usersArray = array();
-		foreach($users as $u) $usersArray[$u] = $u;
 		
-		$select = $this->addElement('select', 'selectDelegate', array(
-				'required' => false,
-				'ignore' =>true,
-				'label' => 'Delegate',
-				'description' => 'Select the user you want to delegate',
-				'multiOptions' => $usersArray
-		));
 		
-		/*$multiselect = $this->addElement('multiselect', 'selectScopes', array(
-				'required' => false,
-				'ignore' =>true,
-				'label' => 'Scopes',
-				'description' => 'Chose the scopes of the delegation',
-				'multiOptions' => $scopes
-		));*/
+		$acElem = new ZendX_JQuery_Form_Element_AutoComplete('selectDelegate');
+		$acElem->setLabel('Delegate');
+		$acElem->setDescription('Select the user you want to delegate');
+		$acElem->setJQueryParam('data', $users);
+		$this->addElement($acElem);
+		
 		
 		$multiCheckbox = $this->addElement('multiCheckbox', 'selectScopes', array(
 				'required' => false,
