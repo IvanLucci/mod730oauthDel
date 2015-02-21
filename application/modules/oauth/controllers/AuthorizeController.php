@@ -37,9 +37,6 @@ class Oauth_AuthorizeController extends Zend_Controller_Action {
 
     public function init() {
     	
-    	$this->view->addHelperPath('ZendX/JQuery/View/Helper/', 'ZendX_JQuery_View_Helper');
-    	$this->view->jQuery()->setCdnSsl(true);
-    	
         $this->_request_validator = new Oauth_Request_Validator();
 
         //initialize the default visualization

@@ -7,6 +7,8 @@
   <?php echo $this->headStyle(); ?>
   <?php $this->headLink()->appendStylesheet('https://code.jquery.com/ui/1.8.2/themes/smoothness/jquery-ui.css') ?>
   <?php echo $this->headLink(); ?>
+  <?php $this->addHelperPath('ZendX/JQuery/View/Helper/', 'ZendX_JQuery_View_Helper');
+		$this->jQuery()->setCdnSsl(true); ?>
   <?php echo $this->JQuery()->setVersion('1.4.2')->setUiVersion('1.8.2'); ?>
   
 </head>
