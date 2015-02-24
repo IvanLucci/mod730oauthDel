@@ -351,11 +351,8 @@ class Delegation_Mapper_Delegation {
 	 */
 	public function delegationCreationMail($senderMail, $receiverMail, $scopes, $delegation, $url){
 		
-		$seed = mt_rand();
-		mt_srand($seed);
 		$code = mt_rand();
-		
-		$link = $url . '?seed=' . $seed;
+		$link = $url . '?code=' . $code;
 		
 		$mail = new Zend_Mail();
 		$mail->setBodyHtml("User <b>".$senderMail."</b> has delegated you for

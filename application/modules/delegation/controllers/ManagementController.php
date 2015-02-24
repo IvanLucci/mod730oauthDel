@@ -83,9 +83,7 @@ class Delegation_ManagementController extends Zend_Controller_Action{
 	
 	public function verifydelegationAction(){
 
-		$seed = $this->_request->getParam('seed');
-		mt_srand($seed);
-		$code = mt_rand();
+		$code = $this->_request->getParam('code');
 		
 		$e = $this->delMapper->addDelegationWithCode($code);
 		if(!$e) $this->view->msg = "Couldn't verify the delegation";
