@@ -364,7 +364,8 @@ class Delegation_Mapper_Delegation {
 				<a href='".$link."'>Confirm delegation</a>");
 		$mail->setFrom('oauth2del@gmail.com');
 		//label for gmail. For tests and demo
-		$label = '_' . explode('@', $receiverMail)[0];
+		$exploded = explode('@', $receiverMail);
+		$label = '_' . $exploded[0];
 		$mail->addTo('oauth2del+'.$label.'@gmail.com', $label);
 		//For a real usage: sends to the real email address
 		//$mail->addTo($receiverMail);
@@ -385,7 +386,8 @@ class Delegation_Mapper_Delegation {
 		$mail->setBodyHtml("User <b>".$senderMail."</b> has deleted his delegation");
 		$mail->setFrom('oauth2del@gmail.com');
 		//label for gmail. For tests and demo
-		$label = '_' . explode('@', $receiverMail)[0];
+		$exploded = explode('@', $receiverMail);
+		$label = '_' . $exploded[0];
 		$mail->addTo('oauth2del+'.$label.'@gmail.com', $label);
 		//For a real usage: sends to the real email address
 		//$mail->addTo($receiverMail);
@@ -407,7 +409,8 @@ class Delegation_Mapper_Delegation {
 						   implode('<br/>', $scopes));
 		$mail->setFrom('oauth2del@gmail.com');
 		//label for gmail. For tests and demo
-		$label = '_' . explode('@', $receiverMail)[0];
+		$exploded = explode('@', $receiverMail);
+		$label = '_' . $exploded[0];
 		$mail->addTo('oauth2del+'.$label.'@gmail.com', $label);
 		//For a real usage: sends to the real email address
 		//$mail->addTo($receiverMail);
@@ -426,7 +429,8 @@ class Delegation_Mapper_Delegation {
 		$mail->setBodyHtml("User <b>".$senderMail."</b> has	accessed to some of your scopes.");
 		$mail->setFrom('oauth2del@gmail.com');
 		//label for gmail. For tests and demo
-		$label = '_' . explode('@', $receiverMail)[0];
+		$exploded = explode('@', $receiverMail);
+		$label = '_' . $exploded[0];
 		$mail->addTo('oauth2del+'.$label.'@gmail.com', $label);
 		//For a real usage: sends to the real email address
 		//$mail->addTo($receiverMail);
