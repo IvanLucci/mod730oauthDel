@@ -41,7 +41,8 @@ UNLOCK TABLES;
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES ('mario.rossi@gmail.com','5f4dcc3b5aa765d61d8327deb882cf99', DEFAULT), ('artur.tolstenco@gmail.com', '5f4dcc3b5aa765d61d8327deb882cf99', DEFAULT);
+INSERT INTO `user` VALUES ('mario.rossi@gmail.com','5f4dcc3b5aa765d61d8327deb882cf99', DEFAULT), ('artur.tolstenco@gmail.com', '5f4dcc3b5aa765d61d8327deb882cf99', DEFAULT),
+('bianchi@gmail.com','5f4dcc3b5aa765d61d8327deb882cf99', DEFAULT);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -60,3 +61,12 @@ UNLOCK TABLES;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+insert into delegations (`delegator`, `delegate`, `scopes`, `expiration_date`) values
+('mario.rossi@gmail.com', 'bianchi@gmail.com', 'lettura_dati_anagrafici', null);
+
+insert into `roles` (`role_name`,`role_uri`) values
+('ispettore','https://dione.disi.unige.it/roleServer/public/index');
+
+insert into `role_scopes` (`role_id`, `scopes`) values
+(1, 'lettura_dati_contratti_locazione_fabbricati lettura_dati_cud');
