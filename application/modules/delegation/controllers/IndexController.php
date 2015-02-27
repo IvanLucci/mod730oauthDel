@@ -177,6 +177,7 @@ class Delegation_IndexController extends Zend_Controller_Action {
     	}
     	 
     	$selectedRole = $post['selectRole'];
+    	$this->session_delegation->selectedRole = $selectedRole;
     	
     	//Ask the role server if the role is legit
     	$role = $this->delMapper->findRole($selectedRole);
@@ -214,8 +215,12 @@ class Delegation_IndexController extends Zend_Controller_Action {
     	$role = (int)$xpath->query("//Attribute[@Name = 'role_id']/AttributeValue")->item(0)->nodeValue;
     	$id = trim($xpath->query("//Attribute[@Name = 'subject_id']/AttributeValue")->item(0)->nodeValue);   	
     	
+    	if($this->session_delegation->selectedRole == $role)  	
+    		$this->session_delegation->role = $role;
+    	else 
+    		throw new Exception("The role you selected and the role in the assertion don't match");
     	
-    	$this->session_delegation->role = $role;
+    	unset($this->session_delegation->selectedRole);
     	
     	//Create a Zend_Auth using the role name and person id
     	$roleName = $this->delMapper->findRole($role)->getRoleName();
