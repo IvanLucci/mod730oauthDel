@@ -63,7 +63,7 @@ class Oauth_AuthorizeController extends Zend_Controller_Action {
     		$requestUri = Zend_Controller_Front::getInstance()->getRequest()->getRequestUri();
     		$session = new Zend_Session_Namespace('lastRequest');
     		$session->lastRequestUri = $requestUri;
-    		$this->_helper->redirector('index', 'index', 'delegation');
+    		$this->_helper->redirector('select', 'index', 'delegation');
     	}
 
     	unset($sd->usesDelegation);
@@ -163,7 +163,9 @@ class Oauth_AuthorizeController extends Zend_Controller_Action {
         	if(!isset($sd->role)){
         		$delMapper = new Delegation_Mapper_Delegation();
         		$sender = Zend_Auth::getInstance()->getIdentity();
-        		$delMapper->delegationUsedMail($sender, $sd->delegator);
+        		try {
+        			$delMapper->delegationUsedMail($sender, $sd->delegator);
+        		} catch(Exception $e){}
         	}
         	
         	//log that a delegation has been used

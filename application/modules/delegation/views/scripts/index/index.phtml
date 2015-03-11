@@ -3,9 +3,5 @@
 </div>
 
 
-<?php if($this->form):?>
-<div class="form">
-    <?=$this->form?>
-    </div>
-<?php endif; ?>
-
+<a href="<? echo $this->url( array('controller' => 'management', 'action' => 'index') ); ?>">Delegation management</a><br/>
+<a href="<? echo $this->url( array('controller' => 'index', 'action' => 'select') ); ?>">Access to data</a>

@@ -31,11 +31,6 @@ class Delegation_Mapper_Delegation {
 	 */
 	protected $roleScope_table;
 	
-	/**
-	 * The delegation verification code's table
-	 * @var Delegation_Model_DbTable_DelegationVerificationCode
-	 */
-	protected $delegationVerificationCode_table;
 	
 	/**
 	 * This object constructor
@@ -46,12 +41,10 @@ class Delegation_Mapper_Delegation {
 		$this->delegation_table = new Delegation_Model_DbTable_Delegation();
 		$this->role_table = new Delegation_Model_DbTable_Role();
 		$this->roleScope_table = new Delegation_Model_DbTable_RoleScope(); 
-		$this->delegationVerificationCode_table = new Delegation_Model_DbTable_DelegationVerificationCode();
 		
 		if (!$this->delegation_table instanceof Zend_Db_Table_Abstract or 
 			!$this->role_table instanceof Zend_Db_Table_Abstract or
-			!$this->roleScope_table instanceof Zend_Db_Table_Abstract or 
-			!$this->delegationVerificationCode_table instanceof Zend_Db_Table_Abstract	) {
+			!$this->roleScope_table instanceof Zend_Db_Table_Abstract	) {
 			throw new Exception('Invalid table data gateway provided');
 		}
 	}
@@ -65,7 +58,8 @@ class Delegation_Mapper_Delegation {
 	public function findDelegationsOfDelegator($id){
 		$table = $this->delegation_table;
 		$select = $table->select();
-		$select->where('delegator = ?', $id);
+		$select->where('delegator = ?', $id)
+			   ->where('state = 1');
 		$rows = $table->fetchAll($select);
 		$result = array();
 		foreach($rows as $row){
@@ -73,7 +67,9 @@ class Delegation_Mapper_Delegation {
 			$d->setDelegator($row->delegator)
 			->setDelegate($row->delegate)
 			->setScopes($row->scopes)
-			->setExpDate($row->expiration_date);
+			->setExpDate($row->expiration_date)
+			->setState($row->state)
+			->setCode($row->code);
 			$result[] = $d;
 		}
 		return $result;
@@ -87,7 +83,8 @@ class Delegation_Mapper_Delegation {
 	public function findDelegationsOfDelegate($id){
 		$table = $this->delegation_table;
 		$select = $table->select();
-		$select->where('delegate = ?', $id);
+		$select->where('delegate = ?', $id)
+			   ->where('state = 1');
 		$rows = $table->fetchAll($select);
 		$result = array();
 		foreach($rows as $row){
@@ -95,19 +92,71 @@ class Delegation_Mapper_Delegation {
 			$d->setDelegator($row->delegator)
 			->setDelegate($row->delegate)
 			->setScopes($row->scopes)
-			->setExpDate($row->expiration_date);
+			->setExpDate($row->expiration_date)
+			->setState($row->state)
+			->setCode($row->code);
 			$result[] = $d;
 		}
 		return $result;
 	}
 	
 	/**
-	 * Finds the pending delegations of a delegator
+	 * Finds the pending delegations sent by a delegator
 	 * @param string $id
 	 * @return array of Delegation_Model_Delegation
 	 */
-	public function findPendingDelegations($id){
-		$table = $this->delegationVerificationCode_table;
+	public function findPendingDelegationsSent($id){
+		$table = $this->delegation_table;
+		$select = $table->select();
+		$select->where('delegator = ?', $id)
+			   ->where('state = 0');
+		$rows = $table->fetchAll($select);
+		$result = array();
+		foreach($rows as $row){
+			$d = new Delegation_Model_Delegation();
+			$d->setDelegator($row->delegator)
+			->setDelegate($row->delegate)
+			->setScopes($row->scopes)
+			->setExpDate($row->expiration_date)
+			->setState($row->state)
+			->setCode($row->code);
+			$result[] = $d;
+		}
+		return $result;
+	}
+	
+	/**
+	 * Finds the pending delegations received by a delegate
+	 * @param string $id
+	 * @return array of Delegation_Model_Delegation
+	 */
+	public function findPendingDelegationsReceived($id){
+		$table = $this->delegation_table;
+		$select = $table->select();
+		$select->where('delegate = ?', $id)
+		->where('state = 0');
+		$rows = $table->fetchAll($select);
+		$result = array();
+		foreach($rows as $row){
+			$d = new Delegation_Model_Delegation();
+			$d->setDelegator($row->delegator)
+			->setDelegate($row->delegate)
+			->setScopes($row->scopes)
+			->setExpDate($row->expiration_date)
+			->setState($row->state)
+			->setCode($row->code);
+			$result[] = $d;
+		}
+		return $result;
+	}
+	
+	/**
+	 * Finds all the delegations of a delegator, pending ones included
+	 * @param string $id
+	 * @return array of Delegation_Model_Delegation
+	 */
+	public function findAllDelegationsOfDelegator($id){
+		$table = $this->delegation_table;
 		$select = $table->select();
 		$select->where('delegator = ?', $id);
 		$rows = $table->fetchAll($select);
@@ -117,7 +166,9 @@ class Delegation_Mapper_Delegation {
 			$d->setDelegator($row->delegator)
 			->setDelegate($row->delegate)
 			->setScopes($row->scopes)
-			->setExpDate($row->expiration_date);
+			->setExpDate($row->expiration_date)
+			->setState($row->state)
+			->setCode($row->code);
 			$result[] = $d;
 		}
 		return $result;
@@ -132,8 +183,9 @@ class Delegation_Mapper_Delegation {
 	public function findDelegators($id, $scopes=null){
 		$table = $this->delegation_table;
 		$select = $table->select();
-		$select->where('delegate = ?', $id);
-		$select->where('expiration_date >= current_date');
+		$select->where('delegate = ?', $id)
+			   ->where('expiration_date >= current_date')
+			   ->where('state = 1');
 		$rows = $table->fetchAll($select);
 		$result = array();
 		foreach($rows as $row){
@@ -162,37 +214,13 @@ class Delegation_Mapper_Delegation {
 		$table = $this->delegation_table;
 		$select = $table->select();
 		$select->where('delegator = ?', $delegator)
-			   ->where('delegate = ?', $delegate);
+			   ->where('delegate = ?', $delegate)
+			   ->where('state = 1');
 		$row = $table->fetchRow($select);
 		if(!$row) return array();
 		return explode($this->_DELIMITER, $row->scopes);
 	}
 	
-	/**
-	 * Gets the roles of a user
-	 * @param string $userId
-	 * @return array of Delegation_Model_Role
-	 */
-	/*public function findUserRoles($userId){
-		$tableRole = $this->role_table;
-		$tableUserRole = $this->userRole_table;
-		
-		$select = $tableRole->select();
-		$select->setIntegrityCheck(false)
-			   ->from($tableRole->getName())
-			   ->joinNatural($tableUserRole->getName())
-			   ->where('user_id = ?', $userId);
-		
-		$rows = $tableRole->fetchAll($select);
-		$result = array();
-		foreach($rows as $row){
-			$r = new Delegation_Model_Role();
-			$r->setRoleId($row->role_id)
-			  ->setRoleName($row->role_name);
-			$result[] = $r;
-		}
-		return $result;
-	}*/
 	
 	/**
 	 * Finds all users except the one specified
@@ -311,7 +339,9 @@ class Delegation_Mapper_Delegation {
 		$record = array('delegator' => $delegation->getDelegator(),
 						'delegate' => $delegation->getDelegate(),
 						'scopes' => $delegation->getScopes(),
-						'expiration_date' => $delegation->getExpDate()
+						'expiration_date' => $delegation->getExpDate(),
+						'state' => $delegation->getState(),
+						'code' => $delegation->getCode()
 		);
 		$this->delegation_table->insert($record);
 	}
@@ -334,13 +364,23 @@ class Delegation_Mapper_Delegation {
 	}
 	
 	/**
-	 * Removes a delegation from the database
+	 * Removes a delegation from the database (with notification)
 	 * @param string $delegator
 	 * @param string $delegate
 	 */
 	public function removeDelegation($delegator, $delegate){
-		$this->delegation_table->delete('delegator = "'.$delegator.'" and delegate = "'.$delegate.'"');
+		$this->delegation_table->delete('delegator = "'.$delegator.'" and delegate = "'.$delegate.'" and state = 1');
 	}
+	
+	/**
+	 * Revokes a pending delegation (without notification)
+	 * @param string $delegator
+	 * @param string $delegate
+	 */
+	public function revokeDelegation($delegator, $delegate){
+		$this->delegation_table->delete('delegator = "'.$delegator.'" and delegate = "'.$delegate.'" and state = 0');
+	}
+	
 	
 	/**
 	 * Sends an email to the address receiverMail, telling that
@@ -351,8 +391,7 @@ class Delegation_Mapper_Delegation {
 	 */
 	public function delegationCreationMail($senderMail, $receiverMail, $scopes, $delegation, $url){
 		
-		$code = mt_rand();
-		$link = $url . '?code=' . $code;
+		$link = $url . '?code=' . $delegation->getCode();
 		
 		$mail = new Zend_Mail();
 		$mail->setBodyHtml("User <b>".$senderMail."</b> has delegated you for
@@ -369,7 +408,6 @@ class Delegation_Mapper_Delegation {
 		$mail->setSubject('[AS] New Delegation from '. $senderMail);
 		$mail->send();
 		
-		$this->saveVerificationCode($delegation, $code);
 	}
 	
 	/**
@@ -435,36 +473,18 @@ class Delegation_Mapper_Delegation {
 		$mail->send();
 	}
 	
-	protected function saveVerificationCode($delegation, $code){
-		
-		$record = array('delegator' => $delegation->getDelegator(),
-				'delegate' => $delegation->getDelegate(),
-				'scopes' => $delegation->getScopes(),
-				'expiration_date' => $delegation->getExpDate(),
-				'code' => $code
-		);
-		$this->delegationVerificationCode_table->insert($record);
-	}
 	
-	protected function removeVerificationCode($code){
-		$this->delegationVerificationCode_table->delete('code = '.$code);
-	}
-	
-	public function addDelegationWithCode($code){
-		$table = $this->delegationVerificationCode_table;
+	public function verifyDelegation($code){
+		$table = $this->delegation_table;
 		$select = $table->select();
 		$select->where('code = ?', $code);
 		$row = $table->fetchRow($select);
 		if(!$row) return false;
 		
-		$d = new Delegation_Model_Delegation();
-		$d->setDelegator($row->delegator)
-		  ->setDelegate($row->delegate)
-		  ->setScopes($row->scopes)
-		  ->setExpDate($row->expiration_date);
+		//set the delegation as verified (state = 1)
+		$data = array( 'state' => 1 );
+		$table->update($data, "code = ".$code);
 		
-		$this->addDelegation($d);
-		$this->removeVerificationCode($code);
 		return true;
 	}
 }

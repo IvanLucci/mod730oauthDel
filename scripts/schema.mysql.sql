@@ -160,19 +160,8 @@ create table `delegations`(
 	`delegate` varchar(500) not null,
 	`scopes` varchar(1000) not null,
 	`expiration_date` date,
-	primary key(`delegator`, `delegate`)
-)ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-
--- Codici di verifica dell'attivazione delega.
-
-drop table if exists `delegation_verification_code`;
-create table `delegation_verification_code`(
-	`delegator` varchar(500) not null,
-	`delegate` varchar(500) not null,
-	`scopes` varchar(1000) not null,
-	`expiration_date` date,
 	`code` bigint not null,
+	`state` tinyint default 0,
 	primary key(`delegator`, `delegate`)
 )ENGINE=InnoDB DEFAULT CHARSET=latin1;
 

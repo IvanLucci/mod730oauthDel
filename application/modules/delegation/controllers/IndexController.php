@@ -67,8 +67,11 @@ class Delegation_IndexController extends Zend_Controller_Action {
     	
     }
     
+    public function indexAction(){
+
+    }
     
-    public function indexAction() {
+    public function selectAction() {
     	
         //Se l'utente e' loggato con un ruolo, mostra il form dei ruoli
 		if(isset($this->session_delegation->role)) {

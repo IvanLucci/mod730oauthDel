@@ -31,10 +31,9 @@ class Delegation_ManagementController extends Zend_Controller_Action{
 		
 		$this->view->form = $this->getForm();
 		$this->view->delegationList = $this->getDelegationList();
-		$this->view->pendingDelegations = $this->getPendingDelegations();
+		$this->view->pendingDelegationsSent = $this->getPendingDelegationsSent();
+		$this->view->pendingDelegationsReceived = $this->getPendingDelegationsReceived();
 		$this->view->receivedDelegations = $this->getReceivedDelegations();
-		$this->view->deleteUrl = 'management/delete';
-		$this->view->editUrl = 'management/edit';
 		$s = new Zend_Session_Namespace('delegation');
 		if(isset($s->role))
 			$this->view->loggedRole = true;
@@ -61,6 +60,15 @@ class Delegation_ManagementController extends Zend_Controller_Action{
     	$selectedDelegate = $post['selectDelegate'];
     	$selectedScopes = $post['selectScopes'];
     	
+    	//Se esiste gia' una delega con quello stesso delegato e delegante, solleva eccezione.
+    	$dels = $this->delMapper->findAllDelegationsOfDelegator($this->loggedUser);
+    	foreach($dels as $d){
+    		if($d->getDelegate() == $selectedDelegate){
+    			throw new Exception("There is already a delegation with delegator ". $this->loggedUser. " and delegate ". $selectedDelegate);
+    		}
+    	}
+    	
+    	
     	//Scadenza di default della delega: 3 mesi
     	$date = new Zend_Date();
     	$date->add(3, Zend_Date::MONTH);
@@ -68,16 +76,24 @@ class Delegation_ManagementController extends Zend_Controller_Action{
     	$delegation = new Delegation_Model_Delegation();
     	$delegation->setDelegator($this->loggedUser)
     			   ->setDelegate($selectedDelegate)
-    			   ->setExpDate($date->toString("yyyy-MM-dd"));
+    			   ->setExpDate($date->toString("yyyy-MM-dd"))
+    			   ->setState(0)
+    			   ->setCode(mt_rand());
+    			 
     	
     	if(!empty($selectedScopes))
     		$delegation->setScopes(implode($this->_DELIMITER, $selectedScopes));
     	
+    	//Adds the pending delegation
+    	$this->delMapper->addDelegation($delegation);
+    	
     	//Sends a notification via mail to the delegate. The delegate can confirm the
     	//delegation by clicking on the verification link in the email received.
     	$url = $this->view->serverUrl('/oauth/public/delegation/management/verifydelegation');
-    	$this->delMapper->delegationCreationMail($this->loggedUser, $selectedDelegate, $selectedScopes, $delegation, $url);
-    
+    	try {
+    		$this->delMapper->delegationCreationMail($this->loggedUser, $selectedDelegate, $selectedScopes, $delegation, $url);
+    	} catch (Exception $e){}
+    		
     	return $this->_helper->redirector('index');
 	}
 	
@@ -85,7 +101,7 @@ class Delegation_ManagementController extends Zend_Controller_Action{
 
 		$code = $this->_request->getParam('code');
 		
-		$e = $this->delMapper->addDelegationWithCode($code);
+		$e = $this->delMapper->verifyDelegation($code);
 		if(!$e) $this->view->msg = "Couldn't verify the delegation";
 		else $this->view->msg = "The delegation has been verified."; 
 	}
@@ -126,7 +142,9 @@ class Delegation_ManagementController extends Zend_Controller_Action{
 		else $delegation->setScopes(null);
 		 
 		$this->delMapper->editDelegation($delegation, $delegator, $delegate);
-		$this->delMapper->delegationEditMail($delegator, $delegate, $selectedScopes); 
+		try {
+			$this->delMapper->delegationEditMail($delegator, $delegate, $selectedScopes); 
+		} catch(Exception $e){}
 		
 		return $this->_helper->redirector('index');
 	}
@@ -147,7 +165,9 @@ class Delegation_ManagementController extends Zend_Controller_Action{
 		}
 		else if($delegate == $this->loggedUser){
 			$this->delMapper->removeDelegation($delegator, $delegate);
-			$this->delMapper->delegationDeletionMail($delegate, $delegator);
+			try {
+				$this->delMapper->delegationDeletionMail($delegate, $delegator);
+			} catch(Exception $e){}
 		}
 		
 		$this->_helper->redirector('index');
@@ -166,6 +186,23 @@ class Delegation_ManagementController extends Zend_Controller_Action{
 			$this->view->form = $this->getEditForm($delegator, $delegate);
 		}
 		else $this->_helper->redirector('index');
+	}
+	
+	public function revokeAction(){
+	
+		$request = $this->getRequest();
+	
+		if (!$request->isGet()) {
+			return $this->_helper->redirector('index');
+		}
+	
+		$delegator = $request->getParam('delegator');
+		$delegate = $request->getParam('delegate');
+		if($delegator == $this->loggedUser || $delegate == $this->loggedUser){
+			$this->delMapper->revokeDelegation($delegator, $delegate);
+		}
+	
+		$this->_helper->redirector('index');
 	}
 	
 	protected function getForm(){
@@ -205,8 +242,13 @@ class Delegation_ManagementController extends Zend_Controller_Action{
 		return $delegations;
 	}
 	
-	protected function getPendingDelegations(){
-		$pending = $this->delMapper->findPendingDelegations($this->loggedUser);
+	protected function getPendingDelegationsSent(){
+		$pending = $this->delMapper->findPendingDelegationsSent($this->loggedUser);
+		return $pending;
+	}
+	
+	protected function getPendingDelegationsReceived(){
+		$pending = $this->delMapper->findPendingDelegationsReceived($this->loggedUser);
 		return $pending;
 	}
 	

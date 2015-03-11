@@ -33,6 +33,18 @@ class Delegation_Model_Delegation {
 	protected $_expDate;
 	
 	/**
+	 * The state. 0 -> pending, 1 -> confirmed
+	 * @var int
+	 */
+	protected $_state;
+	
+	/**
+	 * The code for the verification
+	 * @var int
+	 */
+	protected $_code;
+	
+	/**
 	 * 
 	 * @param string
 	 * @return Oauth_Model_Delegation
@@ -73,6 +85,26 @@ class Delegation_Model_Delegation {
 	}
 	
 	/**
+	 * 
+	 * @param int $state
+	 * @return Delegation_Model_Delegation
+	 */
+	public function setState($state){
+		$this->_state = $state;
+		return $this;
+	}
+	
+	/**
+	 * 
+	 * @param int $code
+	 * @return Delegation_Model_Delegation
+	 */
+	public function setCode($code){
+		$this->_code = $code;
+		return $this;
+	}
+	
+	/**
 	 * Getter of delegator
 	 * @return string
 	 */
@@ -102,5 +134,21 @@ class Delegation_Model_Delegation {
 	 */
 	public function getExpDate(){
 		return $this->_expDate;
+	}
+	
+	/**
+	 * Getter of the state
+	 * @return int
+	 */
+	public function getState(){
+		return $this->_state;
+	}
+	
+	/**
+	 * Getter of the code
+	 * @return int
+	 */
+	public function getCode(){
+		return $this->_code;
 	}
 }
