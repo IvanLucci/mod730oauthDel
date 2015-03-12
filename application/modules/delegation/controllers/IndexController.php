@@ -68,7 +68,7 @@ class Delegation_IndexController extends Zend_Controller_Action {
     }
     
     public function indexAction(){
-
+    	$this->view->canAccessData = $this->session_lastRequest->hasRequested;
     }
     
     public function selectAction() {

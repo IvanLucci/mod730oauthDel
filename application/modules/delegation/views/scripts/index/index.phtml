@@ -4,4 +4,7 @@
 
 
 <a href="<? echo $this->url( array('controller' => 'management', 'action' => 'index') ); ?>">Delegation management</a><br/>
-<a href="<? echo $this->url( array('controller' => 'index', 'action' => 'select') ); ?>">Access to data</a>
+
+<?php if($this->canAccessData): ?>
+	<a href="<? echo $this->url( array('controller' => 'index', 'action' => 'select') ); ?>">Access to data</a>
+<?php endif;?>

@@ -63,6 +63,7 @@ class Oauth_AuthorizeController extends Zend_Controller_Action {
     		$requestUri = Zend_Controller_Front::getInstance()->getRequest()->getRequestUri();
     		$session = new Zend_Session_Namespace('lastRequest');
     		$session->lastRequestUri = $requestUri;
+    		$session->hasRequested = true;
     		$this->_helper->redirector('select', 'index', 'delegation');
     	}
 
@@ -137,6 +138,7 @@ class Oauth_AuthorizeController extends Zend_Controller_Action {
         
         //if the loggedUser uses a delegation, the resource owner is the delegator
         $sd = new Zend_Session_Namespace('delegation');
+        $s = new Zend_Session_Namespace('lastRequest');
         if(isset($sd->delegator))
         	$resource_owner = $this->_helper->ModelLoader->loadResourceOwner($sd->delegator);
         else
@@ -176,6 +178,7 @@ class Oauth_AuthorizeController extends Zend_Controller_Action {
         }
         unset($sd->delegator);
         unset($sd->role);
+        unset($s->hasRequested);
         
 		Zend_Auth::getInstance()->clearIdentity();
         $this->_helper->redirector->gotoUrl($url);
@@ -187,6 +190,8 @@ class Oauth_AuthorizeController extends Zend_Controller_Action {
      * @param array $data 
      */
     protected function processDeny($data) {
+    	$s = new Zend_Session_Namespace('lastRequest');
+    	unset($s->hasRequested);
         $state = isset($data[STATE]) ? $data[STATE] : NULL;
         $urlHelper = $this->_helper->RedirectUriFormatter;
 
