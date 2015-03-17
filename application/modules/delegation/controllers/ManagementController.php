@@ -161,7 +161,9 @@ class Delegation_ManagementController extends Zend_Controller_Action{
 		$delegate = $request->getParam('delegate');
 		if($delegator == $this->loggedUser){
 			$this->delMapper->removeDelegation($delegator, $delegate);
-			$this->delMapper->delegationDeletionMail($delegator, $delegate);
+			try {
+				$this->delMapper->delegationDeletionMail($delegator, $delegate);
+			} catch(Exception $e) {}
 		}
 		else if($delegate == $this->loggedUser){
 			$this->delMapper->removeDelegation($delegator, $delegate);
