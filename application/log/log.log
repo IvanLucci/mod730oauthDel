@@ -65,3 +65,25 @@
 2015-03-17T18:40:58+01:00 INFO (6): ivan@gmail.com accessed to mario.rossi@gmail.com data. Scopes: lettura_dati_contratti_locazione_fabbricati
 2015-03-17T19:35:32+01:00 INFO (6): ivan@gmail.com accessed to mario.rossi@gmail.com data. Scopes: lettura_dati_contratti_locazione_fabbricati
 2015-03-17T19:39:50+01:00 INFO (6): Ispettore ispettore1@gmail.com accessed to mario.rossi@gmail.com data. Scopes: lettura_dati_contratti_locazione_fabbricati lettura_dati_cud
+2015-03-17T20:03:58+01:00 INFO (6): Ispettore ispettore1@gmail.com accessed to mario.rossi@gmail.com data. Scopes: lettura_dati_contratti_locazione_fabbricati lettura_dati_cud
+2015-03-17T20:28:20+01:00 INFO (6): ivan@gmail.com accessed to mario.rossi@gmail.com data. Scopes: lettura_dati_anagrafici lettura_dati_sostituto_imposta lettura_dati_contratti_locazione_fabbricati lettura_dati_cud lettura_dati_spese_mediche lettura_dati_fabbricati
+2015-03-17T20:29:51+01:00 INFO (6): ivan@gmail.com accessed to mario.rossi@gmail.com data. Scopes: lettura_dati_contratti_locazione_fabbricati lettura_dati_fabbricati
+2015-03-17T20:30:50+01:00 INFO (6): ivan@gmail.com accessed to mario.rossi@gmail.com data. Scopes: lettura_dati_contratti_locazione_fabbricati lettura_dati_fabbricati
+2015-03-17T21:21:01+01:00 INFO (6): bianchi@gmail.com accessed to mario.rossi@gmail.com data. Scopes: lettura_dati_anagrafici lettura_dati_spese_mediche
+2015-03-17T21:32:08+01:00 INFO (6): Ispettore ispettore1@gmail.com accessed to mario.rossi@gmail.com data. Scopes: lettura_dati_contratti_locazione_fabbricati lettura_dati_cud
+2015-03-19T17:57:10+01:00 INFO (6): bianchi@gmail.com accessed to mario.rossi@gmail.com data. Scopes: lettura_dati_anagrafici
+2015-03-19T17:58:40+01:00 INFO (6): bianchi@gmail.com accessed to mario.rossi@gmail.com data. Scopes: lettura_dati_anagrafici
+2015-03-19T18:00:31+01:00 INFO (6): bianchi@gmail.com accessed to mario.rossi@gmail.com data. Scopes: lettura_dati_anagrafici
+2015-03-19T18:09:55+01:00 INFO (6): Ispettore ispettore1@gmail.com accessed to mario.rossi@gmail.com data. Scopes: lettura_dati_contratti_locazione_fabbricati lettura_dati_cud lettura_dati_fabbricati
+2015-03-19T18:16:59+01:00 INFO (6): Ispettore ispettore1@gmail.com accessed to mario.rossi@gmail.com data. Scopes: lettura_dati_contratti_locazione_fabbricati lettura_dati_cud lettura_dati_fabbricati
+2015-03-19T18:19:15+01:00 INFO (6): Ispettore ispettore1@gmail.com accessed to mario.rossi@gmail.com data. Scopes: lettura_dati_contratti_locazione_fabbricati lettura_dati_cud lettura_dati_fabbricati
+2015-03-19T18:25:00+01:00 INFO (6): bianchi@gmail.com accessed to mario.rossi@gmail.com data. Scopes: lettura_dati_anagrafici
+2015-03-19T18:28:02+01:00 INFO (6): bianchi@gmail.com accessed to mario.rossi@gmail.com data. Scopes: lettura_dati_anagrafici
+2015-03-19T18:30:01+01:00 INFO (6): bianchi@gmail.com accessed to mario.rossi@gmail.com data. Scopes: lettura_dati_anagrafici
+2015-03-19T18:30:45+01:00 INFO (6): Ispettore ispettore1@gmail.com accessed to mario.rossi@gmail.com data. Scopes: lettura_dati_contratti_locazione_fabbricati lettura_dati_cud lettura_dati_fabbricati
+2015-03-20T17:19:44+01:00 INFO (6): bianchi@gmail.com accessed to mario.rossi@gmail.com data. Scopes: lettura_dati_anagrafici
+2015-03-20T17:21:08+01:00 INFO (6): Ispettore ispettore1@gmail.com accessed to mario.rossi@gmail.com data. Scopes: lettura_dati_contratti_locazione_fabbricati lettura_dati_cud lettura_dati_fabbricati
+2015-03-20T20:03:43+01:00 INFO (6): bianchi@gmail.com accessed to mario.rossi@gmail.com data. Scopes: lettura_dati_anagrafici
+2015-03-20T20:07:49+01:00 INFO (6): Ispettore ispettore1@gmail.com accessed to mario.rossi@gmail.com data. Scopes: lettura_dati_contratti_locazione_fabbricati lettura_dati_cud lettura_dati_fabbricati
+2015-03-21T16:17:58+01:00 INFO (6): bianchi@gmail.com accessed to mario.rossi@gmail.com data. Scopes: lettura_dati_anagrafici
+2015-03-21T16:21:58+01:00 INFO (6): Ispettore ispettore1@gmail.com accessed to mario.rossi@gmail.com data. Scopes: lettura_dati_contratti_locazione_fabbricati lettura_dati_cud lettura_dati_fabbricati

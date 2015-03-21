@@ -68,6 +68,12 @@ class Delegation_ManagementController extends Zend_Controller_Action{
     		}
     	}
     	
+    	//Controlla eventuali errori
+    	$roMapper = new Oauth_Mapper_ResourceOwner();
+    	if($roMapper->find($selectedDelegate) == null)
+    		throw new Exception("An existent delegate must be selected");
+    	if(empty($selectedScopes))
+    		throw new Exception("At least 1 scope must be selected");
     	
     	//Scadenza di default della delega: 3 mesi
     	$date = new Zend_Date();
@@ -79,10 +85,9 @@ class Delegation_ManagementController extends Zend_Controller_Action{
     			   ->setExpDate($date->toString("yyyy-MM-dd"))
     			   ->setState(0)
     			   ->setCode(mt_rand());
-    			 
+
     	
-    	if(!empty($selectedScopes))
-    		$delegation->setScopes(implode($this->_DELIMITER, $selectedScopes));
+    	$delegation->setScopes(implode($this->_DELIMITER, $selectedScopes));
     	
     	//Adds the pending delegation
     	$this->delMapper->addDelegation($delegation);
